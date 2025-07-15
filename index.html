@@ -294,34 +294,6 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
     }
-
-    /* Spinner circular */
-.spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  margin: -15px 0 0 -15px;  /* centra el spinner */
-  border: 4px solid var(--primary-color);
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  z-index: 100;  /* por encima de la imagen */
-}
-
-/* Animación de rotación */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Asegúrate de que .gallery-item tenga posición relativa */
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-  /* resto de tus estilos… */
-}
-
   </style>
 </head>
 <body>
@@ -696,26 +668,6 @@
         alert('No se pudo compartir. Por favor, inténtalo de nuevo.');
       }
     });
-
-  // Espera a que el DOM cargue
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.gallery-item img').forEach(img => {
-      const spinner = img.parentElement.querySelector('.spinner');
-      // Cuando la imagen termine de cargar, ocultamos el spinner
-      img.addEventListener('load', () => {
-        spinner.style.display = 'none';
-      });
-      // En caso de error al cargar, también ocultamos el spinner
-      img.addEventListener('error', () => {
-        spinner.style.display = 'none';
-        // opcional: puedes mostrar un placeholder de error aquí
-      });
-      // Si ya estuviera cacheada como cargada
-      if (img.complete) {
-        spinner.style.display = 'none';
-      }
-    });
-  });
 
     // Contenido dinámico
     let images = [
