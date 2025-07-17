@@ -31,7 +31,7 @@
     /* Loader */
     #loader {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: #000 url('https://i.ibb.co/CKxysNJb/IMG-20250716-131128.webp') no-repeat center center/cover;
+      background: #000 url('https://i.ibb.co/BVBT4CWp/IMG-20250714-175337.png') no-repeat center center/cover;
       display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
       opacity: 1; transform: scale(1);
       transition: opacity .5s ease, transform .3s ease;
@@ -56,7 +56,7 @@
     header {
       position: fixed; top: 0; left: 0; width: 100%; height: 60px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 7px; background: #000; border-bottom: 3px solid var(--primary-color);
+      padding: 7px; background: #000; border-bottom: 2px solid var(--primary-color);
       z-index: 1000; box-sizing: border-box;
     }
     .left-icon, .right-icon {
@@ -68,7 +68,7 @@
       font-size: 24px; color: var(--primary-color);
     }
     .app-title {
-      flex: 1; text-align: center; max-width: 130px;
+      flex: 1; text-align: center; max-width: 120px;
     }
     .app-title img {
       width: 100%; height: auto; max-width: 130px; max-height: 130px;
@@ -102,22 +102,37 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: space-between;
     }
-    .gallery-item img {
-      width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover;
-    }
+    
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
     .image-overlay {
-      width: 100%; height: 35px; padding: 10px;
-      background: linear-gradient(135deg,rgba(255,192,203,.8)0%,rgba(255,105,180,.8)100%);
-      color: #fff; display: flex; align-items: center; justify-content: center;
-      font-size: 8px; font-weight: bold; text-transform: uppercase;
-      text-align: center; box-sizing: border-box;
-      white-space: pre-wrap; word-wrap: break-word;
-    }
+  width: 100%;
+  height: 35px;
+  padding: 10px;
+  background: linear-gradient(135deg, #111 0%, #333 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 
     /* Pagination */
     .pagination {
       position: fixed; bottom: 0; left: 0; width: 100%;
-      background: #000; border-top: 3px solid var(--primary-color);
+      background: #000; border-top: 2px solid var(--primary-color);
       display: flex; align-items: center; justify-content: space-between;
       padding: 7px; box-sizing: border-box; overflow-x: hidden; z-index: 1000;
     }
@@ -343,13 +358,12 @@
 <div class="color-picker-box">
   <div class="color-picker-header">Colores</div>
   <div class="color-picker-options">
-    <div class="color-option" style="background:#F64AE4" data-color="#F64AE4"></div> <!-- Color original -->
-    <div class="color-option" style="background:#FF6EC7" data-color="#FF6EC7"></div> <!-- Rosa chicle -->
-    <div class="color-option" style="background:#6EC5FF" data-color="#6EC5FF"></div> <!-- Azul cielo saturado -->
-    <div class="color-option" style="background:#6EFFA0" data-color="#6EFFA0"></div> <!-- Verde menta brillante -->
-    <div class="color-option" style="background:#FFA76E" data-color="#FFA76E"></div> <!-- Naranja durazno -->
-    <div class="color-option" style="background:#76FFD9" data-color="#76FFD9"></div> <!-- Turquesa pastel -->
-    <div class="color-option" style="background:#8D9EFF" data-color="#8D9EFF"></div> <!-- Lavanda saturado -->
+   <div class="color-option" style="background:#333333" data-color="#333333"></div> 
+    <div class="color-option" style="background:#FFFFFF" data-color="#FFFFFF"></div> 
+    <div class="color-option" style="background:#111111" data-color="#111111"></div> 
+    <div class="color-option" style="background:#FFA76E" data-color="#FFA76E"></div>
+    <div class="color-option" style="background:#76FFD9" data-color="#76FFD9"></div> 
+    <div class="color-option" style="background:#8D9EFF" data-color="#8D9EFF"></div> 
     <div class="color-option" style="background:#FFF96E" data-color="#FFF96E"></div> <!-- Amarillo vivo -->
     <div class="color-option" style="background:#C6FF6E" data-color="#C6FF6E"></div> <!-- Lima brillante -->
     <div class="color-option" style="background:#FF9EF7" data-color="#FF9EF7"></div> <!-- Fucsia claro -->
