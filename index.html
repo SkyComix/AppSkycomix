@@ -9,6 +9,13 @@
   <!-- Font Awesome Free 6.4.2 -->
   <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" />
   <style>
+    
+*, *:focus, *:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #000; color: #fff; padding-bottom: 60px; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -59,7 +66,7 @@
       display: grid; grid-template-columns: repeat(3,1fr); gap: 5px;
     }
     .card {
-      background: #111; border-radius: 8px; overflow: hidden;
+      background: #111; border-radius: 3px; overflow: hidden;
       box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer;
       display: flex; flex-direction: column;
     }
@@ -69,7 +76,7 @@
     .card .image-wrapper .spinner {
       position: absolute; top: 50%; left: 50%;
       width: 30px; height: 30px; margin: -15px 0 0 -15px;
-      border: 4px solid #fff; border-top-color: transparent;
+      border: 3px solid #fff; border-top-color: transparent;
       border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
     }
     .card .image-wrapper img {
@@ -78,7 +85,7 @@
     }
     .card .card-title {
       background: linear-gradient(to bottom, #000, #333);
-      font-size: 0.30rem; font-weight: 700;
+      font-size: 0.25rem; font-weight: 700;
       display: flex; justify-content: center; align-items: center;
       text-align: center; padding: 0 0.75rem;
       height: 3rem; overflow: hidden; white-space: normal; word-break: break-word;
@@ -93,8 +100,8 @@
     .bottom-bar .item {
       display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none;
     }
-    .bottom-bar .item i { font-size:1.25rem; margin-bottom:4px; color: #aaa; }
-    .bottom-bar .item span.label { font-size:.75rem; color: #aaa; display:none; }
+    .bottom-bar .item i { font-size:1.10rem; margin-bottom:4px; color: #aaa; }
+    .bottom-bar .item span.label { font-size:.65rem; color: #aaa; display:none; }
     .bottom-bar .item.active i,
     .bottom-bar .item.active span.label { color: #fff; }
     .bottom-bar .item.active span.label { display:block; }
