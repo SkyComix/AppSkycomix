@@ -9,15 +9,10 @@
   <!-- Material Icons CDN -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
-     
-*, *:focus, *:active {
-  outline: none !important;
-  box-shadow: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-}
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #000; color: #fff; padding-bottom: 60px; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .top-bar {
       position: fixed; top: 0; left: 0; right: 0;
@@ -33,8 +28,7 @@
       position: absolute; top: 50%; transform: translateY(-50%);
       right: 1rem; width: 36px; height: 36px; border-radius: 50%;
       background: linear-gradient(to bottom, #000, #333);
-      align-items: center; justify-content: center;
-      cursor: pointer; z-index: 12;
+      align-items: center; justify-content: center; cursor: pointer; z-index: 12;
     }
     .search-close .material-icons { font-size: 1.25rem; color: #fff; }
 
@@ -54,18 +48,30 @@
       display: grid; grid-template-columns: repeat(3,1fr); gap: 5px;
     }
     .card {
-      background:#111; border-radius:8px; overflow:hidden;
-      box-shadow:0 2px 6px rgba(0,0,0,0.5); cursor:pointer;
-      display:flex; flex-direction:column;
+      background: #111; border-radius: 8px; overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer;
+      display: flex; flex-direction: column;
     }
-    .card img { width:100%; object-fit:cover; aspect-ratio:3/4; display:block; }
+    .card .image-wrapper {
+      position: relative; width: 100%; aspect-ratio: 3/4; background: #000;
+    }
+    .card .image-wrapper .spinner {
+      position: absolute; top: 50%; left: 50%;
+      width: 30px; height: 30px; margin: -15px 0 0 -15px;
+      border: 4px solid #fff; border-top-color: transparent;
+      border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
+    }
+    .card .image-wrapper img {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      display: none;
+    }
     .card .card-title {
       background: linear-gradient(to bottom, #000, #333);
       font-size: 0.50rem; font-weight: 700;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      display: flex; justify-content: center; align-items: center;
       text-align: center; padding: 0 0.75rem;
-      height: 3rem; overflow: hidden;
-      white-space: normal; word-break: break-word;
+      height: 3rem; overflow: hidden; white-space: normal; word-break: break-word;
     }
 
     .bottom-bar {
@@ -107,33 +113,12 @@
       background:#111;
     }
     .modal-gallery img { width:100%; height:auto; object-fit:cover; }
-
-    /* Estilos de la burbuja (toast) */
-    .toast {
-      position: fixed;
-      bottom: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      padding: .5rem 1rem;
-      border-radius: 20px;
-      font-size: .85rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s ease, bottom .3s ease;
-      z-index: 15;
-    }
-    .toast.show {
-      opacity: 1;
-      bottom: 80px;
-    }
   </style>
 </head>
 <body>
 
   <header class="top-bar">
-    <img src="https://i.ibb.co/m5s7S6xC/Logo.png" alt="Logo" class="logo" />
+    <img src="logo.png" alt="Logo" class="logo" />
     <span id="search-icon" class="material-icons search-icon">search</span>
     <input id="search-field" class="search-field" type="text" placeholder="Buscar..." />
     <div id="search-close" class="search-close">
@@ -157,9 +142,6 @@
     </div>
   </footer>
 
-  <!-- Burbuja de notificación -->
-  <div id="toast" class="toast">No disponible</div>
-
   <div id="modal-overlay" class="modal-overlay">
     <div class="modal-header">
       <div id="modal-title" class="modal-title">TÍTULO</div>
@@ -171,7 +153,20 @@
   </div>
 
   <script>
-    const images       = [
+    const container    = document.getElementById('cards-container');
+    const overlay      = document.getElementById('modal-overlay');
+    const closeBtn     = document.getElementById('modal-close');
+    const titleEl      = document.getElementById('modal-title');
+    const galleryEl    = document.getElementById('modal-gallery');
+    const logo         = document.querySelector('.logo');
+    const searchIcon   = document.getElementById('search-icon');
+    const searchField  = document.getElementById('search-field');
+    const searchClose  = document.getElementById('search-close');
+
+    // ocultar botón cerrar búsqueda al inicio
+    searchClose.style.display = 'none';
+
+    const images = [
    
 {
         src: 'https://fullcomics18.org/img17/secretos-de-familia3-1.jpg',
@@ -3541,20 +3536,11 @@
           { src: 'https://reycomix.com/wp-content/uploads/2025/02/La-Noche-Especial-de-TRPG-de-Marcy-Yumail-21.webp', text: 'Detalle 21' }
         ]
       }
-      // …otros items…
+      // PUEDES AÑADIR MÁS IMÁGENES
     ];
-    const container    = document.getElementById('cards-container');
-    const overlay      = document.getElementById('modal-overlay');
-    const closeBtn     = document.getElementById('modal-close');
-    const titleEl      = document.getElementById('modal-title');
-    const galleryEl    = document.getElementById('modal-gallery');
-    const logo         = document.querySelector('.logo');
-    const searchIcon   = document.getElementById('search-icon');
-    const searchField  = document.getElementById('search-field');
-    const searchClose  = document.getElementById('search-close');
-    const toast        = document.getElementById('toast');
 
-    let shuffled = images.slice().sort(() => Math.random() - 0.5);
+    // Barajar una vez al inicio para home
+    const shuffledHome = images.slice().sort(() => Math.random() - 0.5);
 
     function renderCards(items) {
       container.innerHTML = '';
@@ -3563,11 +3549,32 @@
         card.className = 'card';
         card.addEventListener('click', () => openModal(item));
         card.innerHTML = `
-          <img src="${item.src}" alt="${item.text}" />
+          <div class="image-wrapper">
+            <div class="spinner"></div>
+            <img data-src="${item.src}" alt="${item.text}" />
+          </div>
           <div class="card-title">${item.text}</div>
         `;
         container.appendChild(card);
       });
+      loadSequential(0);
+    }
+
+    function loadSequential(i) {
+      const cards = container.querySelectorAll('.card');
+      if (i >= cards.length) return;
+      const imgEl   = cards[i].querySelector('img');
+      const spinner = cards[i].querySelector('.spinner');
+      imgEl.src = imgEl.dataset.src;
+      imgEl.onload = () => {
+        spinner.remove();
+        imgEl.style.display = 'block';
+        loadSequential(i + 1);
+      };
+      imgEl.onerror = () => {
+        spinner.remove();
+        loadSequential(i + 1);
+      };
     }
 
     function openModal(item) {
@@ -3584,17 +3591,18 @@
     searchIcon.addEventListener('click', () => {
       searchField.classList.add('active');
       searchClose.style.display = 'flex';
-      searchIcon.style.display = 'none';
-      logo.style.opacity = '0';
+      searchIcon.style.display  = 'none';
+      logo.style.opacity         = '0';
       searchField.focus();
     });
     searchClose.addEventListener('click', () => {
       searchField.value = '';
       searchField.classList.remove('active');
       searchClose.style.display = 'none';
-      searchIcon.style.display = 'inline';
-      logo.style.opacity = '1';
+      searchIcon.style.display  = 'inline';
+      logo.style.opacity         = '1';
       renderCards(getCurrentItems());
+      window.scrollTo(0, 0);
     });
     searchField.addEventListener('input', () => {
       const q = searchField.value.trim().toLowerCase();
@@ -3605,6 +3613,7 @@
           )
         : getCurrentItems();
       renderCards(filtered);
+      window.scrollTo(0, 0);
     });
 
     function getCurrentItems() {
@@ -3612,31 +3621,28 @@
       if (tab === 'new') {
         return images
           .slice()
-          .sort((a,b)=> parseInt(b.link.split(':')[1]) - parseInt(a.link.split(':')[1]))
-          .slice(0,15);
+          .sort((a, b) => parseInt(b.link.split(':')[1]) - parseInt(a.link.split(':')[1]))
+          .slice(0, 15);
       }
-      return tab === 'home' ? shuffled : images;
+      if (tab === 'profile') {
+        return images;
+      }
+      // home usa la baraja predefinida
+      return shuffledHome;
     }
 
-    // Inicial
-    renderCards(shuffled);
-
-    // Tabs “home” y “new”
     document.querySelectorAll('.bottom-bar .item').forEach(tabEl => {
-      if (tabEl.dataset.tab === 'profile') return;
       tabEl.addEventListener('click', () => {
-        document.querySelectorAll('.bottom-bar .item').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.bottom-bar .item')
+          .forEach(t => t.classList.remove('active'));
         tabEl.classList.add('active');
         renderCards(getCurrentItems());
+        window.scrollTo(0, 0);
       });
     });
 
-    // Listener exclusivo de “Perfil”
-    const profileTab = document.querySelector('.bottom-bar .item[data-tab="profile"]');
-    profileTab.addEventListener('click', () => {
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
-    });
+    // Inicial
+    renderCards(getCurrentItems());
   </script>
 </body>
 </html>
