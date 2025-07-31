@@ -1,878 +1,178 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <!-- Fuente Montserrat para toda la página -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Enlace a Font Awesome para los iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
-  <title>GIFFANY CÓMICS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyComix</title>
+  <!-- Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Material Icons CDN -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
-   :root { --primary-color: #F64AE4; }
-
+     
 *, *:focus, *:active {
   outline: none !important;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent !important;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #000; color: #fff; padding-bottom: 60px; }
 
-body {
-  padding-top: 60px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-  background: #000;
-  color: #fff;
-  overflow-x: hidden;
-  background-size: cover;
-  background-attachment: fixed;
-}
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      background: #000; padding: .75rem 1rem; border-bottom: 2px solid #555; z-index: 10;
+    }
+    .top-bar .logo { height: 40px; transition: opacity .3s ease; }
+    .search-icon {
+      font-size: 1.75rem; cursor: pointer; color: #fff; user-select: none; z-index: 12;
+    }
+    .search-close {
+      display: none;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      right: 1rem; width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(to bottom, #000, #333);
+      align-items: center; justify-content: center;
+      cursor: pointer; z-index: 12;
+    }
+    .search-close .material-icons { font-size: 1.25rem; color: #fff; }
 
-/* Loader */
-#loader {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #000 url('https://i.ibb.co/BVBT4CWp/IMG-20250714-175337.png') no-repeat center center/cover;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-  opacity: 1; transform: scale(1);
-  transition: opacity .5s ease, transform .3s ease;
-  z-index: 2000;
-}
-#loader.closing {
-  opacity: 0;
-  transform: scale(1.95);
-}
-.loader-text {
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 7px;
-  z-index: 2001;
-}
-.progress-container {
-  width: 60%;
-  height: 5px;
-  background: rgba(255,255,255,.2);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 40px;
-  z-index: 2001;
-}
-#progress-bar {
-  width: 0;
-  height: 100%;
-  background: var(--primary-color);
-  border-radius: 2px;
-}
+    .search-field {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      right: calc(1rem + 44px); width: 0; opacity: 0;
+      padding: 0 .75rem; height: 36px;
+      border: none; border-radius: 60px; font-size: .95rem;
+      transition: width .3s, opacity .3s; background: #222; color: #fff; outline: none; z-index: 11;
+    }
+    .search-field.active {
+      width: calc(100% - 2rem - 44px); opacity: 1;
+    }
 
-/* Header */
-header {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 7px;
-  background: #000;
-  border-bottom: 2px solid var(--primary-color);
-  z-index: 1000;
-  box-sizing: border-box;
-}
-.left-icon, .right-icon {
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.left-icon i, .right-icon i {
-  font-size: 24px;
-  color: var(--primary-color);
-}
-.app-title {
-  flex: 1;
-  text-align: center;
-  max-width: 120px;
-}
-.app-title img {
-  width: 100%;
-  height: auto;
-  max-width: 130px;
-  max-height: 130px;
-}
+    .cards-wrapper { padding: 5rem 1rem 1rem; }
+    .cards-container {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 5px;
+    }
+    .card {
+      background:#111; border-radius:8px; overflow:hidden;
+      box-shadow:0 2px 6px rgba(0,0,0,0.5); cursor:pointer;
+      display:flex; flex-direction:column;
+    }
+    .card img { width:100%; object-fit:cover; aspect-ratio:3/4; display:block; }
+    .card .card-title {
+      background: linear-gradient(to bottom, #000, #333);
+      font-size: 0.50rem; font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 0 0.75rem;
+      height: 3rem; overflow: hidden;
+      white-space: normal; word-break: break-word;
+    }
 
-/* Search bar */
-.search-bar {
-  display: none;
-  padding: 10px;
-  width: calc(100% - 20px);
-  margin: 0 auto;
-  background: transparent;
-  border-radius: 10px;
-}
-.search-bar input {
-  width: 100%;
-  padding: 15px;
-  border: 3px solid var(--primary-color);
-  border-radius: 10px;
-  font-size: 12px;
-  color: #fff;
-  background: transparent;
-  box-sizing: border-box;
-}
-.search-bar input::placeholder {
-  color: var(--primary-color);
-  opacity: 1;
-}
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #000; border-top:2px solid #555;
+      display:flex; justify-content:space-around; align-items:center;
+      height:60px; z-index:10;
+    }
+    .bottom-bar .item {
+      display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none;
+    }
+    .bottom-bar .item .material-icons { font-size:1.5rem; margin-bottom:4px; color: #aaa; }
+    .bottom-bar .item span.label { font-size:.75rem; color: #aaa; display:none; }
+    .bottom-bar .item.active .material-icons,
+    .bottom-bar .item.active span.label { color: #fff; }
+    .bottom-bar .item.active span.label { display:block; }
 
-/* Gallery */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 7px;
-  padding: 10px;
-  padding-bottom: 70px;
-}
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0,0,0,.5);
-  background: #1c1b24;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-.gallery-item img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-}
-.image-overlay {
-  width: 100%;
-  height: 35px;
-  padding: 10px;
-  background: linear-gradient(135deg, #111 0%, #333 100%);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 6px;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align: center;
-  box-sizing: border-box;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
+    .modal-overlay {
+      position: fixed; top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.95); display:none; flex-direction:column; z-index:20;
+    }
+    .modal-header {
+      display:flex; align-items:center; justify-content:space-between;
+      background:#000; padding:.75rem 1rem; border-bottom:2px solid #555;
+    }
+    .modal-header .modal-title {
+      flex:1; margin-right:8px; font-size:1rem; font-weight:400; color:#fff;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .modal-header .circle {
+      width:32px; height:32px; border-radius:50%;
+      background: linear-gradient(to bottom, #000, #333);
+      display:flex; align-items:center; justify-content:center; cursor:pointer;
+    }
+    .modal-header .circle .material-icons { font-size:1rem; color:#fff; }
 
-/* Pagination */
-.pagination {
-  position: fixed; bottom: 0; left: 0;
-  width: 100%;
-  background: #000;
-  border-top: 2px solid var(--primary-color);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 7px;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  z-index: 1000;
-}
-.pagination button {
-  background: transparent;
-  border: 3px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 12px 24px;
-  cursor: pointer;
-  font-size: 12px;
-  border-radius: 50px;
-  flex-shrink: 1;
-}
-.pagination button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-.pagination .page-number {
-  font-size: 18px;
-  color: var(--primary-color);
-}
-@media (max-width: 400px) {
-  .pagination button {
-    padding: 10px 16px;
-    font-size: 10px;
-  }
-}
+    .modal-gallery {
+      flex:1; overflow-y:auto; display:grid; grid-template-columns:1fr; gap:0; padding:0;
+      background:#111;
+    }
+    .modal-gallery img { width:100%; height:auto; object-fit:cover; }
 
-/* Links & buttons */
-a, button {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Side Menu */
-.side-menu {
-  position: fixed; top: 0; left: -250%;
-  width: 100%; height: 100vh;
-  background: #000;
-  box-shadow: 2px 0 10px rgba(0,0,0,.5);
-  transition: left .3s ease;
-  z-index: 1200;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.side-menu.show { left: 0; }
-.menu-overlay {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,.5);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s ease, visibility .3s;
-  z-index: 1150;
-}
-.menu-overlay.show { opacity: 1; visibility: visible; }
-
-.side-menu-top-bar {
-  display: flex; align-items: center; justify-content: flex-start;
-  padding: 10px 15px;
-  background: #000;
-  padding-top: 20px;
-}
-.close-menu-btn {
-  width: 30px; height: 30px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-}
-.close-menu-btn i {
-  font-size: 13px;
-  color: #fff;
-}
-.side-menu-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--primary-color);
-  margin: 0;
-}
-
-/* Categories */
-.categories-section { margin: 10px 0; }
-.categories-section .two-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin: 0 15px 10px;
-}
-.categories-section .category-link {
-  display: block;
-  padding: 10px 0;
-  font-size: 12px;
-  color: var(--primary-color);
-  border-radius: 50px;
-  border: 3px solid var(--primary-color);
-  text-align: center;
-}
-.categories-section .category-link i { margin-right: 5px; }
-
-/* Color Picker */
-.color-picker-box {
-  margin: 10px 15px;
-  background: #1c1b24;
-  border-radius: 15px;
-  overflow: hidden;
-}
-.color-picker-header {
-  display: block;
-  width: 100%;
-  padding: 10px 15px;
-  background: #262530;
-  color: var(--primary-color);
-  font-size: 13px;
-  font-weight: bold;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border-bottom: 1px solid var(--primary-color);
-}
-.color-picker-options {
-  display: grid;
-  grid-template-columns: repeat(7,minmax(0,1fr));
-  gap: 8px;
-  padding: 10px 15px;
-  box-sizing: border-box;
-}
-.color-option {
-  width: 100%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px transparent;
-  transition: box-shadow .2s, transform .2s;
-}
-.color-option:hover { transform: scale(1.05); }
-.color-option.selected {
-  box-shadow: 0 0 0 2px var(--primary-color);
-  border: 2px solid #000;
-}
-
-/* Tags Search */
-.search-tags-box {
-  margin: 10px 15px;
-  background: #1c1b24;
-  border-radius: 15px;
-  overflow: hidden;
-}
-.search-tags-header {
-  padding: 10px 15px;
-  font-size: 13px;
-  color: var(--primary-color);
-  border-bottom: 1px solid var(--primary-color);
-}
-.search-tags-box .tags-options {
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 10px 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-#tagsOptions a {
-  display: inline-block;
-  padding: 4px 8px;
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  border-radius: 20px;
-  transition: background .2s;
-}
-#tagsOptions a:hover { background: rgba(246,74,228,.1); }
-
-/* Detail Modal */
-.detail-modal {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #000;
-  display: flex; flex-direction: column;
-  z-index: 2000;
-  opacity: 0; visibility: hidden;
-  transform: scale(1.95);
-  transition: opacity .5s ease, transform .3s ease, visibility .3s;
-}
-.detail-modal.open {
-  opacity: 1; visibility: visible; transform: scale(1);
-}
-.detail-header {
-  display: flex; justify-content: space-between; align-items: center;
-  background: #000; border-bottom: 3px solid var(--primary-color);
-  padding: 10px 15px; color: var(--primary-color);
-}
-.detail-title {
-  font-size: 16px; font-weight: bold;
-}
-.detail-close {
-  background: none; border: none;
-  color: var(--primary-color); font-size: 20px;
-  cursor: pointer; position: relative; top: -3px;
-}
-#detailScrollContainer { flex: 1; overflow: auto; position: relative; }
-#detailZoomContainer { transform-origin: 0 0; }
-.detail-gallery img {
-  width: 100%; display: block; margin: 0; padding: 0;
-  border-bottom: 1px solid #222;
-}
-.zoom-buttons {
-  position: absolute; bottom: 20px; right: 20px;
-  display: flex; flex-direction: column; gap: 10px; z-index: 9999;
-}
-.zoom-buttons button {
-  width: 50px; height: 50px; font-size: 24px;
-  background: transparent; color: #fff;
-  border: 2px solid var(--primary-color); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-
-/* Customizado: selector de columnas */
-.custom-box {
-  margin: 10px 15px;
-  background: #1c1b24;
-  border-radius: 15px;
-  overflow: hidden;
-}
-.custom-header {
-  display: block;
-  width: 100%;
-  padding: 10px 15px;
-  background: #262530;
-  color: var(--primary-color);
-  font-size: 13px;
-  font-weight: bold;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border-bottom: 1px solid var(--primary-color);
-}
-.custom-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  padding: 10px 15px;
-  box-sizing: border-box;
-}
-.custom-option {
-  padding: 10px 0;
-  text-align: center;
-  font-size: 9px;
-  text-transform: uppercase;
-  color: var(--primary-color);
-  border: 3px solid var(--primary-color);
-  border-radius: 50px;
-  cursor: pointer;
-  user-select: none;
-}
-.custom-option:hover {
-  background: rgba(246,74,228,0.1);
-}
-
+    /* Estilos de la burbuja (toast) */
+    .toast {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      padding: .5rem 1rem;
+      border-radius: 20px;
+      font-size: .85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease, bottom .3s ease;
+      z-index: 15;
+    }
+    .toast.show {
+      opacity: 1;
+      bottom: 80px;
+    }
   </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div id="loader">
-    <div class="loader-text"></div>
-    <div class="progress-container">
-      <div id="progress-bar"></div>
-    </div>
-  </div>
 
-  <!-- Header -->
-  <header>
-    <div class="left-icon" id="menu-icon">
-      <i class="fas fa-stream"></i>
-    </div>
-    <div class="app-title">
-      <img src="https://i.ibb.co/VWj9VVkq/Logo.png" alt="Logo">
-    </div>
-    <div class="right-icon">
-      <i class="fas fa-search" id="search-icon"></i>
+  <header class="top-bar">
+    <img src="https://i.ibb.co/m5s7S6xC/Logo.png" alt="Logo" class="logo" />
+    <span id="search-icon" class="material-icons search-icon">search</span>
+    <input id="search-field" class="search-field" type="text" placeholder="Buscar..." />
+    <div id="search-close" class="search-close">
+      <span class="material-icons">close</span>
     </div>
   </header>
 
-  <!-- Barra de búsqueda -->
-  <div class="search-bar" id="searchBar">
-    <input type="text" id="searchInput" placeholder="Buscar...">
-  </div>
+  <main class="cards-wrapper">
+    <div id="cards-container" class="cards-container"></div>
+  </main>
 
-  <!-- Galería -->
-  <div class="gallery" id="gallery"></div>
-
-  <!-- Paginación -->
-  <div class="pagination">
-    <button id="prevButton" onclick="prevPage()">𝗔𝗡𝗧𝗘𝗥𝗜𝗢𝗥</button>
-    <span class="page-number" id="pageNumber">1</span>
-    <button id="nextButton" onclick="nextPage()">𝗦𝗜𝗚𝗨𝗜𝗘𝗡𝗧𝗘</button>
-  </div>
-
-  <!-- Menú Lateral -->
-  <div class="side-menu" id="sideMenu">
-
-    <!-- Barra superior del menú -->
-    <div class="side-menu-top-bar">
-      <button class="close-menu-btn" id="closeMenuIcon" aria-label="Cerrar menú">
-        <i class="fas fa-home"></i>
-      </button>
-      <span class="side-menu-title">Opciones</span>
+  <footer class="bottom-bar">
+    <div class="item active" data-tab="home">
+      <span class="material-icons">home</span><span class="label">Inicio</span>
     </div>
+    <div class="item" data-tab="new">
+      <span class="material-icons">whatshot</span><span class="label">Nuevo</span>
+    </div>
+    <div class="item" data-tab="profile">
+      <span class="material-icons">account_circle</span><span class="label">Perfil</span>
+    </div>
+  </footer>
 
-    <!-- Sección de categorías -->
-    <div class="categories-section">
-      <div class="two-columns">
-        <a href="#" onclick="showAll(); closeSideMenu();" class="category-link">
-          <i class="fas fa-book fa-spin"></i> Ver Todos
-        </a>
-        <a href="#" onclick="showLastAdded(); closeSideMenu();" class="category-link">
-          <i class="fas fa-fire"></i> Nuevos
-        </a>
+  <!-- Burbuja de notificación -->
+  <div id="toast" class="toast">No disponible</div>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-header">
+      <div id="modal-title" class="modal-title">TÍTULO</div>
+      <div id="modal-close" class="circle">
+        <span class="material-icons">chevron_right</span>
       </div>
     </div>
-
-   <!-- Selector de colores -->
-<div class="color-picker-box">
-  <div class="color-picker-header">Colores</div>
-  <div class="color-picker-options">
-    <div class="color-option" style="background: #333333" data-color="#333333"></div>
-    <div class="color-option" style="background: #FF0000" data-color="#FF0000"></div>    <!-- Rojo intenso -->
-    <div class="color-option" style="background: #0000FF" data-color="#0000FF"></div>    <!-- Azul intenso -->
-    <div class="color-option" style="background: #00FF00" data-color="#00FF00"></div>    <!-- Verde intenso -->
-    <div class="color-option" style="background: #FFFF00" data-color="#FFFF00"></div>    <!-- Amarillo intenso -->
-    <div class="color-option" style="background: #FF00FF" data-color="#FF00FF"></div>    <!-- Magenta intenso -->
-    <div class="color-option" style="background: #00FFFF" data-color="#00FFFF"></div>    <!-- Cian intenso -->
-    <div class="color-option" style="background: #800000" data-color="#800000"></div>    <!-- Marrón oscuro -->
-    <div class="color-option" style="background: #000080" data-color="#000080"></div>    <!-- Azul marino -->
-    <div class="color-option" style="background: #008000" data-color="#008000"></div>    <!-- Verde oscuro -->
-    <div class="color-option" style="background: #FFA500" data-color="#FFA500"></div>    <!-- Naranja intenso -->
-    <div class="color-option" style="background: #DC143C" data-color="#DC143C"></div>    <!-- Carmesí intenso -->
-    <div class="color-option" style="background: #4B0082" data-color="#4B0082"></div>    <!-- Índigo intenso -->
-    <div class="color-option" style="background: #FFD700" data-color="#FFD700"></div>    <!-- Nuevo: Dorado -->
-  </div>
-</div>
-
-<!-- Configuración de columnas -->
-    <div class="custom-box">
-      <div class="custom-header">Columna de cómics</div>
-      <div class="custom-options">
-        <div class="custom-option" onclick="setColumns(2)">2 Columnas</div>
-        <div class="custom-option" onclick="setColumns(3)">3 Columnas</div>
-         <div class="custom-option" onclick="setColumns(4)">4 Columnas</div>
-      </div>
-    </div>
-
-    <!-- Buscador de etiquetas -->
-    <div class="search-tags-box">
-      <div class="search-tags-header">Buscador</div>
-      <div id="tagsOptions" class="tags-options"></div>
-    </div>
-
-  </div>
-  <!-- /Menú Lateral -->
-
-  <!-- Overlay del menú -->
-  <div id="menuOverlay" class="menu-overlay"></div>
-
-  <!-- Modal de detalle -->
-  <div id="detailModal" class="detail-modal">
-    <div class="detail-header">
-      <span class="detail-title" id="detailTitle">Título de la imagen</span>
-      <button class="detail-close" id="detailClose">✖</button>
-    </div>
-    <div id="detailScrollContainer">
-      <div id="detailZoomContainer">
-        <div class="detail-gallery" id="detailGallery"></div>
-      </div>
-    </div>
-    <div class="zoom-buttons">
-      <button id="shareButton" title="Compartir">
-        <i class="fas fa-download"></i>
-      </button>
-      <button id="zoom-in">+</button>
-      <button id="zoom-out">–</button>
-    </div>
+    <div id="modal-gallery" class="modal-gallery"></div>
   </div>
 
   <script>
-    // Cerrar menú lateral
-    function closeSideMenu() {
-      document.getElementById('sideMenu').classList.remove('show');
-      document.getElementById('menuOverlay').classList.remove('show');
-    }
-
-    // Loader
-    function hideLoader() {
-      const l = document.getElementById('loader');
-      l.classList.add('closing');
-      l.addEventListener('transitionend', e => {
-        if (e.propertyName === 'opacity') l.style.display = 'none';
-      });
-    }
-    function startProgress() {
-      const bar = document.getElementById('progress-bar'),
-            d = 5000,
-            t0 = performance.now();
-      (function anim(n) {
-        const pct = Math.min(((n - t0) / d) * 100, 100);
-        bar.style.width = pct + '%';
-        (pct < 100 ? requestAnimationFrame(anim) : hideLoader());
-      })(t0);
-    }
-    document.addEventListener('DOMContentLoaded', startProgress);
-
-    // Color functions
-    function updatePrimaryColor(c) {
-      document.documentElement.style.setProperty('--primary-color', c);
-      localStorage.setItem('selectedColor', c);
-    }
-    function applySavedColor() {
-      const c = localStorage.getItem('selectedColor');
-      if (c) {
-        document.documentElement.style.setProperty('--primary-color', c);
-        document.querySelectorAll('.color-option').forEach(o =>
-          o.classList.toggle('selected', o.dataset.color === c)
-        );
-      }
-    }
-    new MutationObserver(muts => {
-      muts.forEach(m =>
-        m.addedNodes.forEach(node => {
-          if (node.nodeType === 1 && node.style.cssText.includes('#F64AE4')) {
-            node.style.cssText = node.style.cssText.replace(
-              /#F64AE4/gi,
-              getComputedStyle(document.documentElement)
-                .getPropertyValue('--primary-color')
-                .trim()
-            );
-          }
-        })
-      );
-    }).observe(document.body, { childList: true, subtree: true });
-
-    // Gallery logic
-    let filteredImages = [],
-        originalImagesOrder = [],
-        showingLastAdded = false;
-    const itemsPerPage = 50;
-    let currentPage = 1,
-        currentDetailItem = null,
-        detailScale = 1;
-
-    // Nuevo: registro de cómics vistos
-    const seen = new Set();
-
-    function shuffleArray(a) {
-      const b = a.slice();
-      for (let i = b.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [b[i], b[j]] = [b[j], b[i]];
-      }
-      return b;
-    }
-    function filterImages() {
-      const txt = document.getElementById('searchInput').value.toLowerCase();
-      filteredImages = originalImagesOrder.filter(img =>
-        txt
-          ? img.text.toLowerCase().includes(txt) ||
-            img.genre.toLowerCase().includes(txt)
-          : true
-      );
-      if (txt.trim()) {
-        filteredImages.sort((a, b) => a.text.localeCompare(b.text));
-      }
-      currentPage = 1;
-      showingLastAdded = false;
-      renderGallery();
-    }
-    function filterByTag(tag) {
-      document.getElementById('searchInput').value = tag;
-      filterImages();
-      closeSideMenu();
-    }
-    function openDetail(item) {
-      seen.add(item.link);
-      currentDetailItem = item;
-      document.getElementById('detailTitle').textContent = item.text;
-      const dg = document.getElementById('detailGallery');
-      dg.innerHTML = '';
-      const imgs = item.gallery && item.gallery.length
-        ? item.gallery
-        : [{ src: item.src, text: item.text }];
-      imgs.forEach(g => {
-        const img = document.createElement('img');
-        img.src = g.src;
-        img.alt = g.text || item.text;
-        dg.appendChild(img);
-      });
-      detailScale = 1;
-      updateDetailScale();
-      document.getElementById('detailModal').classList.add('open');
-    }
-    function closeDetail() {
-      document.getElementById('detailModal').classList.remove('open');
-    }
-    function updateDetailScale() {
-      document.getElementById('detailZoomContainer').style.transform = `scale(${detailScale})`;
-    }
-    function renderGallery() {
-      const g = document.getElementById('gallery');
-      g.innerHTML = '';
-      const start = (currentPage - 1) * itemsPerPage,
-            end = start + itemsPerPage;
-      filteredImages.slice(start, end).forEach(it => {
-        const w = document.createElement('div');
-        w.classList.add('gallery-item');
-        const ca = document.createElement('div');
-        ca.style.cursor = 'pointer';
-        const img = document.createElement('img');
-        img.src = it.src;
-        img.alt = it.text;
-        const ov = document.createElement('div');
-        ov.classList.add('image-overlay');
-        const p = document.createElement('p');
-        p.textContent = it.text;
-        ov.appendChild(p);
-        ca.append(img, ov);
-        ca.addEventListener('click', e => { e.preventDefault(); openDetail(it); });
-        w.appendChild(ca);
-        g.appendChild(w);
-      });
-      const pb = document.getElementById('prevButton'),
-            nb = document.getElementById('nextButton'),
-            pn = document.getElementById('pageNumber');
-      if (showingLastAdded) {
-        pb.style.display = 'none';
-        nb.style.display = 'none';
-        pn.textContent = '';
-      } else {
-        pb.style.display = 'block';
-        nb.style.display = 'block';
-        pn.textContent = currentPage;
-      }
-      pb.disabled = showingLastAdded || currentPage === 1;
-      nb.disabled = showingLastAdded || end >= filteredImages.length;
-    }
-    function nextPage() {
-      currentPage++;
-      renderGallery();
-      window.scrollTo(0, 0);
-    }
-    function prevPage() {
-      currentPage--;
-      renderGallery();
-      window.scrollTo(0, 0);
-    }
-    function showAll() {
-      filteredImages = originalImagesOrder;
-      currentPage = 1;
-      showingLastAdded = false;
-      renderGallery();
-    }
-    function showLastAdded() {
-      const sorted = [...images].sort((a, b) =>
-        parseInt(b.link.match(/\d+/)[0]) - parseInt(a.link.match(/\d+/)[0])
-      );
-      filteredImages = sorted.slice(0, 10);
-      currentPage = 1;
-      showingLastAdded = false;
-      renderGallery();
-    }
-    function populateTagsMenu() {
-      const tags = new Set();
-      images.forEach(img => {
-        if (!img.genre) return;
-        img.genre.split(',').map(t => t.trim()).filter(Boolean)
-          .forEach(t => tags.add(t.toLowerCase()));
-      });
-      const c = document.getElementById('tagsOptions');
-      c.innerHTML = '';
-      Array.from(tags).sort().forEach(t => {
-        const dt = t.charAt(0).toUpperCase() + t.slice(1);
-        const a = document.createElement('a');
-        a.href = '#';
-        a.innerText = dt;
-        a.onclick = () => filterByTag(dt);
-        c.appendChild(a);
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      originalImagesOrder = shuffleArray(images);
-      filterImages();
-      populateTagsMenu();
-      applySavedColor();
-
-      document.getElementById('search-icon').addEventListener('click', () => {
-        const sb = document.getElementById('searchBar');
-        sb.style.display = sb.style.display === 'block' ? 'none' : 'block';
-      });
-      document.getElementById('searchInput').addEventListener('input', filterImages);
-
-      document.getElementById('menu-icon').addEventListener('click', () => {
-        document.getElementById('sideMenu').classList.toggle('show');
-        document.getElementById('menuOverlay').classList.toggle('show');
-      });
-      document.getElementById('closeMenuIcon').addEventListener('click', closeSideMenu);
-      document.getElementById('menuOverlay').addEventListener('click', closeSideMenu);
-
-      document.querySelectorAll('.category-link').forEach(link => {
-        link.addEventListener('click', function () {
-          document.querySelectorAll('.category-link i').forEach(i =>
-            i.classList.remove('fa-spin')
-          );
-          this.querySelector('i')?.classList.add('fa-spin');
-        });
-      });
-
-      document.querySelectorAll('.color-option').forEach(opt => {
-        opt.addEventListener('click', () => {
-          document.querySelectorAll('.color-option').forEach(o =>
-            o.classList.remove('selected')
-          );
-          opt.classList.add('selected');
-          updatePrimaryColor(opt.dataset.color);
-        });
-      });
-
-      const sc = document.getElementById('detailScrollContainer');
-      document.getElementById('zoom-in').addEventListener('click', () => {
-        const old = detailScale,
-              cx = sc.clientWidth / 2,
-              cy = sc.clientHeight / 2;
-        const ccx = sc.scrollLeft + cx,
-              ccy = sc.scrollTop + cy;
-        detailScale += 0.1; updateDetailScale();
-        sc.scrollLeft = ccx * (detailScale / old) - cx;
-        sc.scrollTop = ccy * (detailScale / old) - cy;
-      });
-      document.getElementById('zoom-out').addEventListener('click', () => {
-        const old = detailScale,
-              cx = sc.clientWidth / 2,
-              cy = sc.clientHeight / 2;
-        const ccx = sc.scrollLeft + cx, ccy = sc.scrollTop + cy;
-        detailScale = Math.max(1, detailScale - 0.1);
-        updateDetailScale();
-        sc.scrollLeft = ccx * (detailScale / old) - cx;
-        sc.scrollTop = ccy * (detailScale / old) - cy;
-      });
-      document.getElementById('detailClose').addEventListener('click', closeDetail);
-    });
-
-    // Compartir
-    document.getElementById('shareButton').addEventListener('click', async () => {
-      const name = document.getElementById('detailTitle').textContent.trim();
-      const urls = Array.from(document.querySelectorAll('#detailGallery img'))
-        .map(i => i.src);
-      const data = btoa(JSON.stringify({ name, urls }));
-      try {
-        await navigator.clipboard.writeText(data);
-        window.open(
-          `https://skycomix.github.io/Centro-de-descarga-Giffany-/?data=${encodeURIComponent(data)}`,
-          '_blank'
-        );
-      } catch {
-        alert('No se pudo compartir. Por favor, inténtalo de nuevo.');
-      }
-    });
-
-   // 1) Al cargar la página, recupera la columna guardada (si existe)
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('comicColumns');
-  if (saved) {
-    setColumns(parseInt(saved, 10), false);
-  }
-});
-
-// 2) Modifica setColumns para que guarde en localStorage
-function setColumns(num, save = true) {
-  const gallery = document.getElementById('gallery');
-  gallery.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
-  if (save) {
-    localStorage.setItem('comicColumns', num);
-  }
-  closeSideMenu();
-}
-
-    // Contenido dinámico
-    let images = [
-
+    const images       = [
+   
 {
         src: 'https://fullcomics18.org/img17/secretos-de-familia3-1.jpg',
         text: 'SECRETOS DE FAMILIA 3',
@@ -4241,8 +3541,102 @@ function setColumns(num, save = true) {
           { src: 'https://reycomix.com/wp-content/uploads/2025/02/La-Noche-Especial-de-TRPG-de-Marcy-Yumail-21.webp', text: 'Detalle 21' }
         ]
       }
-      // PUEDES AÑADIR MÁS IMÁGENES
+      // …otros items…
     ];
+    const container    = document.getElementById('cards-container');
+    const overlay      = document.getElementById('modal-overlay');
+    const closeBtn     = document.getElementById('modal-close');
+    const titleEl      = document.getElementById('modal-title');
+    const galleryEl    = document.getElementById('modal-gallery');
+    const logo         = document.querySelector('.logo');
+    const searchIcon   = document.getElementById('search-icon');
+    const searchField  = document.getElementById('search-field');
+    const searchClose  = document.getElementById('search-close');
+    const toast        = document.getElementById('toast');
+
+    let shuffled = images.slice().sort(() => Math.random() - 0.5);
+
+    function renderCards(items) {
+      container.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.addEventListener('click', () => openModal(item));
+        card.innerHTML = `
+          <img src="${item.src}" alt="${item.text}" />
+          <div class="card-title">${item.text}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openModal(item) {
+      titleEl.textContent = item.text;
+      galleryEl.innerHTML = '';
+      item.gallery.forEach(g =>
+        galleryEl.insertAdjacentHTML('beforeend', `<img src="${g.src}" />`)
+      );
+      overlay.style.display = 'flex';
+    }
+    closeBtn.addEventListener('click', () => overlay.style.display = 'none');
+
+    // Búsqueda
+    searchIcon.addEventListener('click', () => {
+      searchField.classList.add('active');
+      searchClose.style.display = 'flex';
+      searchIcon.style.display = 'none';
+      logo.style.opacity = '0';
+      searchField.focus();
+    });
+    searchClose.addEventListener('click', () => {
+      searchField.value = '';
+      searchField.classList.remove('active');
+      searchClose.style.display = 'none';
+      searchIcon.style.display = 'inline';
+      logo.style.opacity = '1';
+      renderCards(getCurrentItems());
+    });
+    searchField.addEventListener('input', () => {
+      const q = searchField.value.trim().toLowerCase();
+      const filtered = q
+        ? getCurrentItems().filter(item =>
+            item.text.toLowerCase().includes(q) ||
+            item.genre.toLowerCase().includes(q)
+          )
+        : getCurrentItems();
+      renderCards(filtered);
+    });
+
+    function getCurrentItems() {
+      const tab = document.querySelector('.bottom-bar .item.active').dataset.tab;
+      if (tab === 'new') {
+        return images
+          .slice()
+          .sort((a,b)=> parseInt(b.link.split(':')[1]) - parseInt(a.link.split(':')[1]))
+          .slice(0,15);
+      }
+      return tab === 'home' ? shuffled : images;
+    }
+
+    // Inicial
+    renderCards(shuffled);
+
+    // Tabs “home” y “new”
+    document.querySelectorAll('.bottom-bar .item').forEach(tabEl => {
+      if (tabEl.dataset.tab === 'profile') return;
+      tabEl.addEventListener('click', () => {
+        document.querySelectorAll('.bottom-bar .item').forEach(t => t.classList.remove('active'));
+        tabEl.classList.add('active');
+        renderCards(getCurrentItems());
+      });
+    });
+
+    // Listener exclusivo de “Perfil”
+    const profileTab = document.querySelector('.bottom-bar .item[data-tab="profile"]');
+    profileTab.addEventListener('click', () => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    });
   </script>
 </body>
 </html>
