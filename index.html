@@ -197,7 +197,8 @@
     searchClose.style.display = 'none';
 
     const images = [
-          
+
+
 {
         src: 'https://fullcomics18.org/img17/secretos-de-familia3-1.jpg',
         text: 'SECRETOS DE FAMILIA 3',
@@ -3566,6 +3567,7 @@
           { src: 'https://reycomix.com/wp-content/uploads/2025/02/La-Noche-Especial-de-TRPG-de-Marcy-Yumail-21.webp', text: 'Detalle 21' }
         ]
       }
+      
       // PUEDES AÑADIR MÁS IMÁGENES
     ];
 
@@ -3638,7 +3640,11 @@
       galleryEl.innerHTML = '';
       item.gallery.forEach(g => {
         const proxied = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(g.src)}`;
-        galleryEl.insertAdjacentHTML('beforeend', `<img src="${proxied}" />`);
+        // Guardamos la URL original en data-original
+        galleryEl.insertAdjacentHTML(
+          'beforeend',
+          `<img src="${proxied}" data-original="${g.src}" />`
+        );
       });
       overlay.style.display = 'flex';
     }
@@ -3646,7 +3652,9 @@
 
     // Botón de descarga: cifrar formato compatible, copiar y abrir el centro
     downloadBtn.addEventListener('click', () => {
-      const links = Array.from(galleryEl.querySelectorAll('img')).map(img => img.src);
+      // Tomamos la URL original desde el atributo data-original
+      const links = Array.from(galleryEl.querySelectorAll('img'))
+        .map(img => img.dataset.original);
       const payload = {
         name: titleEl.textContent.trim(),
         urls: links
