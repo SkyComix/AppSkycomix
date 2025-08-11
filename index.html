@@ -6,137 +6,51 @@
   <title>SkyComix</title>
   <!-- Google Fonts: Montserrat -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
-  <!-- Font Awesome Free 6.4.2 -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" />
   <style>
-    *, *:focus, *:active {
-      outline: none !important;
-      box-shadow: none !important;
-      -webkit-tap-highlight-color: transparent !important;
-    }
+    *, *:focus, *:active { outline: none !important; box-shadow: none !important; -webkit-tap-highlight-color: transparent !important; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #000; color: #fff; padding-bottom: 60px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .top-bar {
-      position: fixed; top: 0; left: 0; right: 0;
-      display: flex; align-items: center; justify-content: space-between;
-      background: #000; padding: .75rem 1rem; border-bottom: 2px solid #555; z-index: 10;
-    }
+    .top-bar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; background: #000; padding: .75rem 1rem; border-bottom: 2px solid #555; z-index: 10; }
     .top-bar .logo { height: 40px; transition: opacity .3s ease; }
     .search-icon { font-size: 1.25rem; cursor: pointer; color: #fff; z-index: 12; }
-    .search-close {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      right: 1rem; width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(to bottom, #000, #333);
-      display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 12;
-    }
+    .search-close { position: absolute; top: 50%; transform: translateY(-50%); right: 1rem; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 12; }
     .search-close i { font-size: 1rem; color: #fff; }
 
-    .search-field {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      right: calc(1rem + 44px); width: 0; opacity: 0;
-      padding: 0 .75rem; height: 36px;
-      border: none; border-radius: 60px; font-size: .95rem;
-      transition: width .3s, opacity .3s; background: #222; color: #fff; outline: none; z-index: 11;
-    }
-    .search-field.active {
-      width: calc(100% - 2rem - 44px); opacity: 1;
-    }
+    .search-field { position: absolute; top: 50%; transform: translateY(-50%); right: calc(1rem + 44px); width: 0; opacity: 0; padding: 0 .75rem; height: 36px; border: none; border-radius: 60px; font-size: .95rem; transition: width .3s, opacity .3s; background: #222; color: #fff; outline: none; z-index: 11; }
+    .search-field.active { width: calc(100% - 2rem - 44px); opacity: 1; }
 
-    .genres-container {
-      display: none;
-      padding: 5rem 1rem 1rem;
-      flex-wrap: wrap; gap: 8px;
-    }
-    .genre-item {
-      background: #111;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      white-space: nowrap;
-      text-transform: capitalize;
-    }
+    .genres-container { display: none; padding: 5rem 1rem 1rem; flex-wrap: wrap; gap: 8px; }
+    .genre-item { background: #111; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; text-transform: capitalize; }
 
     .cards-wrapper { padding: 5rem 1rem 1rem; }
-    .cards-container {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 5px;
-    }
-    .card {
-      background: #111; border-radius: 3px; overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer;
-      display: flex; flex-direction: column;
-    }
-    .card .image-wrapper {
-      position: relative; width: 100%; aspect-ratio: 3/4; background: #000;
-    }
-    .card .image-wrapper .spinner {
-      position: absolute; top: 50%; left: 50%;
-      width: 30px; height: 30px; margin: -15px 0 0 -15px;
-      border: 3px solid #fff; border-top-color: transparent;
-      border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
-    }
-    .card .image-wrapper img {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%; object-fit: cover; display: none;
-    }
-    .card .card-title {
-      background: linear-gradient(to bottom, #000, #333);
-      font-size: 0.25rem; font-weight: 700;
-      display: flex; justify-content: center; align-items: center;
-      text-align: center; padding: 0 0.75rem;
-      height: 3rem; overflow: hidden; white-space: normal; word-break: break-word;
-    }
+    .cards-container { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; }
+    .card { background: #111; border-radius: 3px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer; display: flex; flex-direction: column; }
+    .card .image-wrapper { position: relative; width: 100%; aspect-ratio: 3/4; background: #000; }
+    .card .image-wrapper .spinner { position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; z-index: 1; }
+    .card .image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+    .card .card-title { background: linear-gradient(to bottom, #000, #333); font-size: 0.25rem; font-weight: 700; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 0.75rem; height: 3rem; overflow: hidden; white-space: normal; word-break: break-word; }
 
-    .bottom-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: #000; border-top:2px solid #555;
-      display:flex; justify-content:space-around; align-items:center;
-      height:60px; z-index:10;
-    }
-    .bottom-bar .item {
-      display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none;
-    }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; border-top:2px solid #555; display:flex; justify-content:space-around; align-items:center; height:60px; z-index:10; }
+    .bottom-bar .item { display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none; }
     .bottom-bar .item i { font-size:1.10rem; margin-bottom:4px; color: #aaa; }
     .bottom-bar .item span.label { font-size:.65rem; color: #aaa; display:none; }
-    .bottom-bar .item.active i,
-    .bottom-bar .item.active span.label { color: #fff; }
+    .bottom-bar .item.active i, .bottom-bar .item.active span.label { color: #fff; }
     .bottom-bar .item.active span.label { display:block; }
 
-    .modal-overlay {
-      position: fixed; top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.95); display:none; flex-direction:column; z-index:20;
-    }
-    .modal-header {
-      display:flex; align-items:center; justify-content:space-between;
-      background:#000; padding:.75rem 1rem; border-bottom:2px solid #555;
-    }
-    .modal-header .modal-title {
-      flex:1; font-family: 'Montserrat', sans-serif; font-weight: 700;
-      color: #fff; font-size: inherit; text-align: left; line-height: normal;
-    }
-    .modal-header .circle {
-      width:32px; height:32px; border-radius:50%;
-      background: linear-gradient(to bottom, #000, #333);
-      display:flex; align-items:center; justify-content:center; cursor:pointer;
-    }
+    .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); display:none; flex-direction:column; z-index:20; }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; background:#000; padding:.75rem 1rem; border-bottom:2px solid #555; }
+    .modal-header .modal-title { flex:1; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #fff; font-size: inherit; text-align: left; line-height: normal; }
+    .modal-header .circle { width:32px; height:32px; border-radius:50%; background: linear-gradient(to bottom, #000, #333); display:flex; align-items:center; justify-content:center; cursor:pointer; }
     .modal-header .circle i { font-size:0.9rem; color:#fff; }
 
-    .modal-gallery {
-      flex:1; overflow-y:auto; display:grid; grid-template-columns:1fr; gap:0; padding:0;
-      background:#111;
-    }
+    .modal-gallery { flex:1; overflow-y:auto; display:grid; grid-template-columns:1fr; gap:0; padding:0; background:#111; }
     .modal-gallery img { width:100%; height:auto; object-fit:cover; }
 
-    /* Botón de descarga dentro del modal */
-    #download-btn {
-      position: absolute; bottom: 1rem; right: 1rem;
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(to bottom, #000, #333);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 22;
-    }
+    #download-btn { position: absolute; bottom: 1rem; right: 1rem; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 22; }
     #download-btn i { font-size: 1.25rem; color: #fff; }
   </style>
 </head>
@@ -197,8 +111,7 @@
     searchClose.style.display = 'none';
 
     const images = [
-
-
+      
 {
         src: 'https://fullcomics18.org/img17/secretos-de-familia3-1.jpg',
         text: 'SECRETOS DE FAMILIA 3',
@@ -3567,16 +3480,151 @@
           { src: 'https://reycomix.com/wp-content/uploads/2025/02/La-Noche-Especial-de-TRPG-de-Marcy-Yumail-21.webp', text: 'Detalle 21' }
         ]
       }
-      
       // PUEDES AÑADIR MÁS IMÁGENES
     ];
 
     const shuffledHome = images.slice().sort(() => Math.random() - 0.5);
 
+    /* ----------------------
+       CACHE + COLA DE CARGA SECUENCIAL (1 a 1)
+       - imageCache: originalUrl -> objectURL
+       - loadQueue: trabajos solo para imágenes NO-cacheadas
+       - Las imágenes ya cacheadas se muestran inmediatamente y NO se encolan
+       - Al cambiar de vista se aborta la descarga en curso y se limpia la cola
+       ---------------------- */
+    const imageCache = new Map();
+    let loadQueue = [];
+    let currentFetchController = null;
+    let currentRenderToken = 0;
+    let processingToken = null;
+
+    function setImgFromCacheImmediate(imgEl, originalUrl) {
+      try {
+        const spinner = imgEl.parentElement.querySelector('.spinner');
+        imgEl.src = imageCache.get(originalUrl);
+        imgEl.style.display = 'block';
+        if (spinner) spinner.remove();
+        imgEl.dataset.loaded = 'true';
+      } catch (e) {
+        const spinner = imgEl.parentElement.querySelector('.spinner');
+        if (spinner) spinner.remove();
+        imgEl.dataset.loaded = 'error';
+      }
+    }
+
+    function enqueueLoad(imgEl, originalUrl, token) {
+      // si ya está cargada o marcada error, no hacemos nada
+      if (imgEl.dataset.loaded === 'true' || imgEl.dataset.loaded === 'error') return;
+
+      // SI ESTÁ EN CACHE: mostrar inmediatamente y NO encolar
+      if (imageCache.has(originalUrl)) {
+        setImgFromCacheImmediate(imgEl, originalUrl);
+        return;
+      }
+
+      // evitar duplicados de mismo imgEl+url+token
+      if (loadQueue.some(j => j.imgEl === imgEl && j.originalUrl === originalUrl && j.token === token)) return;
+
+      loadQueue.push({ imgEl, originalUrl, token });
+      processQueue();
+    }
+
+    async function processQueue() {
+      if (processingToken !== null) return; // ya hay un loop activo
+      const myToken = currentRenderToken;
+      processingToken = myToken;
+
+      try {
+        while (myToken === currentRenderToken && loadQueue.length) {
+          // limpiar trabajos obsoletos y mostrar cualquier trabajo que ya esté en cache
+          for (let i = loadQueue.length - 1; i >= 0; i--) {
+            const job = loadQueue[i];
+            if (job.token !== currentRenderToken) {
+              loadQueue.splice(i, 1);
+              continue;
+            }
+            if (imageCache.has(job.originalUrl)) {
+              loadQueue.splice(i, 1);
+              if (job.imgEl && job.imgEl.dataset.loaded !== 'true') {
+                setImgFromCacheImmediate(job.imgEl, job.originalUrl);
+              }
+            }
+          }
+
+          if (myToken !== currentRenderToken) break;
+
+          // coger siguiente trabajo NO-cacheado
+          const job = loadQueue.shift();
+          if (!job) break;
+          if (job.token !== myToken) continue;
+          const { imgEl, originalUrl } = job;
+          if (!imgEl || imgEl.dataset.loaded === 'true') continue;
+          const spinner = imgEl.parentElement.querySelector('.spinner');
+
+          // doble-check cache (por si se cacheó mientras tanto)
+          if (imageCache.has(originalUrl)) {
+            setImgFromCacheImmediate(imgEl, originalUrl);
+            await new Promise(r => setTimeout(r, 10));
+            if (myToken !== currentRenderToken) break;
+            continue;
+          }
+
+          // descargar secuencialmente (proxy)
+          try {
+            const proxied = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(originalUrl)}`;
+            currentFetchController = new AbortController();
+            const resp = await fetch(proxied, { signal: currentFetchController.signal });
+            if (!resp.ok) throw new Error('fetch failed');
+            const blob = await resp.blob();
+            const objectUrl = URL.createObjectURL(blob);
+            // guardar en cache
+            imageCache.set(originalUrl, objectUrl);
+
+            // si el token cambió mientras descargábamos, guardamos en cache y salimos sin tocar DOM obsoleto
+            if (myToken !== currentRenderToken) {
+              currentFetchController = null;
+              break;
+            }
+
+            if (imgEl) {
+              imgEl.src = objectUrl;
+              imgEl.style.display = 'block';
+              if (spinner) spinner.remove();
+              imgEl.dataset.loaded = 'true';
+            }
+          } catch (err) {
+            if (spinner) spinner.remove();
+            // Si abortado, marcar como error para permitir reintento al volver (no bloquear)
+            if (err && err.name === 'AbortError') {
+              if (imgEl) imgEl.dataset.loaded = 'error';
+            } else {
+              if (imgEl) imgEl.dataset.loaded = 'error';
+            }
+          } finally {
+            currentFetchController = null;
+          }
+
+          if (myToken !== currentRenderToken) break;
+        }
+      } finally {
+        if (processingToken === myToken) processingToken = null;
+      }
+    }
+
     function renderCards(items) {
+      // invalidar/limpiar cola anterior y abortar cualquier fetch
+      currentRenderToken++;
+      loadQueue = [];
+      if (currentFetchController) {
+        try { currentFetchController.abort(); } catch(e) {}
+        currentFetchController = null;
+      }
+      processingToken = null;
+
       genresContainer.style.display = 'none';
       cardsWrapper.style.display    = 'block';
       container.innerHTML = '';
+
       items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -3590,18 +3638,28 @@
         `;
         container.appendChild(card);
       });
-      loadAllImages();
-    }
 
-    function loadAllImages() {
-      const imageUrls = Array.from(container.querySelectorAll('img')).map(img => img.dataset.src);
-      container.querySelectorAll('.card').forEach((card, i) => {
-        const imgEl   = card.querySelector('img');
-        const spinner = card.querySelector('.spinner');
-        const proxied = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(imageUrls[i])}`;
-        imgEl.src = proxied;
-        imgEl.onload = () => { spinner.remove(); imgEl.style.display = 'block'; };
-        imgEl.onerror = () => spinner.remove();
+      // Encolar sólo las no-cache (las que estén en cache se muestran inmediatamente)
+      const tokenForThisRender = currentRenderToken;
+      Array.from(container.querySelectorAll('img')).forEach(imgEl => {
+        const original = imgEl.dataset.src;
+        if (imageCache.has(original)) {
+          // MOSTRAR IMMEDIATAMENTE sin encolar
+          try {
+            imgEl.src = imageCache.get(original);
+            imgEl.style.display = 'block';
+            const spinner = imgEl.parentElement.querySelector('.spinner');
+            if (spinner) spinner.remove();
+            imgEl.dataset.loaded = 'true';
+          } catch (e) {
+            const spinner = imgEl.parentElement.querySelector('.spinner');
+            if (spinner) spinner.remove();
+            imgEl.dataset.loaded = 'error';
+          }
+        } else {
+          // Sólo las que no están en cache se encolan
+          enqueueLoad(imgEl, original, tokenForThisRender);
+        }
       });
     }
 
@@ -3640,34 +3698,19 @@
       galleryEl.innerHTML = '';
       item.gallery.forEach(g => {
         const proxied = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(g.src)}`;
-        // Guardamos la URL original en data-original
-        galleryEl.insertAdjacentHTML(
-          'beforeend',
-          `<img src="${proxied}" data-original="${g.src}" />`
-        );
+        galleryEl.insertAdjacentHTML('beforeend', `<img src="${proxied}" data-original="${g.src}" />`);
       });
       overlay.style.display = 'flex';
     }
     closeBtn.addEventListener('click', () => overlay.style.display = 'none');
 
-    // Botón de descarga: cifrar formato compatible, copiar y abrir el centro
     downloadBtn.addEventListener('click', () => {
-      // Tomamos la URL original desde el atributo data-original
-      const links = Array.from(galleryEl.querySelectorAll('img'))
-        .map(img => img.dataset.original);
-      const payload = {
-        name: titleEl.textContent.trim(),
-        urls: links
-      };
+      const links = Array.from(galleryEl.querySelectorAll('img')).map(img => img.dataset.original);
+      const payload = { name: titleEl.textContent.trim(), urls: links };
       const encrypted = btoa(JSON.stringify(payload));
-      navigator.clipboard.writeText(encrypted)
-        .catch(() => {/* aunque falle, seguimos */})
-        .finally(() => {
-          window.open(
-            'https://skycomix.github.io/Centro-de-descarga-Giffany-/',
-            '_blank'
-          );
-        });
+      navigator.clipboard.writeText(encrypted).catch(()=>{}).finally(()=>{
+        window.open('https://skycomix.github.io/Centro-de-descarga-Giffany-/', '_blank');
+      });
     });
 
     searchIcon.addEventListener('click', () => {
@@ -3686,18 +3729,12 @@
       renderCurrent();
       window.scrollTo(0, 0);
     });
-    searchField.addEventListener('input', () => {
-      renderCurrent();
-      window.scrollTo(0, 0);
-    });
+    searchField.addEventListener('input', () => { renderCurrent(); window.scrollTo(0, 0); });
 
     function getCurrentItems() {
       const tab = document.querySelector('.bottom-bar .item.active').dataset.tab;
       if (tab === 'new') {
-        return images
-          .slice()
-          .sort((a, b) => parseInt(b.link.split(':')[1]) - parseInt(a.link.split(':')[1]))
-          .slice(0, 15);
+        return images.slice().sort((a,b)=> parseInt(b.link.split(':')[1]) - parseInt(a.link.split(':')[1])).slice(0,15);
       }
       if (tab === 'genres') return [];
       return shuffledHome;
@@ -3705,14 +3742,11 @@
 
     function renderCurrent() {
       const tab = document.querySelector('.bottom-bar .item.active').dataset.tab;
-      if (tab === 'genres') {
-        renderGenres();
-      } else {
+      if (tab === 'genres') renderGenres();
+      else {
         const q = searchField.value.trim().toLowerCase();
         const items = getCurrentItems().filter(item =>
-          !q ||
-          item.text.toLowerCase().includes(q) ||
-          item.genre.toLowerCase().includes(q)
+          !q || item.text.toLowerCase().includes(q) || item.genre.toLowerCase().includes(q)
         );
         renderCards(items);
       }
