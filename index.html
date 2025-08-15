@@ -14,20 +14,20 @@
     body { font-family: 'Montserrat', sans-serif; background: #000; color: #fff; padding-bottom: 60px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .top-bar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; background: #000; padding: .75rem 1rem; border-bottom: 2px solid #555; z-index: 10; }
+    .top-bar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; background: #000; padding: 12px 16px; border-bottom: 2px solid #555; z-index: 10; }
     .top-bar .logo { height: 40px; transition: opacity .3s ease; }
-    .search-icon { font-size: 1.25rem; cursor: pointer; color: #fff; z-index: 12; }
-    .search-close { position: absolute; top: 50%; transform: translateY(-50%); right: 1rem; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 12; }
-    .search-close i { font-size: 1rem; color: #fff; }
+    .search-icon { font-size: 20px; cursor: pointer; color: #fff; z-index: 12; }
+    .search-close { position: absolute; top: 50%; transform: translateY(-50%); right: 16px; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 12; }
+    .search-close i { font-size: 16px; color: #fff; }
 
-    .search-field { position: absolute; top: 50%; transform: translateY(-50%); right: calc(1rem + 44px); width: 0; opacity: 0; padding: 0 .75rem; height: 36px; border: none; border-radius: 60px; font-size: .95rem; transition: width .3s, opacity .3s; background: #222; color: #fff; outline: none; z-index: 11; }
-    .search-field.active { width: calc(100% - 2rem - 44px); opacity: 1; }
+    .search-field { position: absolute; top: 50%; transform: translateY(-50%); right: 60px; width: 0; opacity: 0; padding: 0 12px; height: 36px; border: none; border-radius: 60px; font-size: 15px; transition: width .3s, opacity .3s; background: #222; color: #fff; outline: none; z-index: 11; }
+    .search-field.active { width: calc(100% - 76px); opacity: 1; }
 
-    .genres-container { display: none; padding: 5rem 1rem 1rem; flex-wrap: wrap; gap: 8px; }
+    .genres-container { display: none; padding: 80px 16px 16px; flex-wrap: wrap; gap: 8px; }
 
     /* RECUADRO (título e interruptor) */
-    .genre-header { width: 100%; background: #111; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border: 1px solid #222; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
-    .genre-header .title { font-weight: 700; font-size: 0.95rem; color: #fff; }
+    .genre-header { width: 100%; background: #111; border-radius: 10px; padding: 10px 13px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border: 1px solid #222; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .genre-header .title { font-weight: 700; font-size: 10px; color: #fff; }
 
     /* Switch */
     .switch { display: inline-block; position: relative; width: 46px; height: 26px; border-radius: 999px; background: #333; cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -36,34 +36,34 @@
     .switch.on { background: linear-gradient(90deg,#0db26b,#068a4f); }
     .switch.on .knob { left: 23px; }
 
-    .genre-item { background: #111; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; text-transform: capitalize; }
+    .genre-item { background: #111; padding: 8px 16px; border-radius: 20px; font-size: 10px; cursor: pointer; white-space: nowrap; text-transform: capitalize; }
 
-    .cards-wrapper { padding: 5rem 1rem 1rem; }
-    .cards-container { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; }
-    .card { background: #111; border-radius: 3px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer; display: flex; flex-direction: column; }
+    .cards-wrapper { padding: 80px 16px 16px; }
+    .cards-container { display: grid; grid-template-columns: repeat(2,1fr); gap: 5px; }
+    .card { background: #111; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: pointer; display: flex; flex-direction: column; }
     .card .image-wrapper { position: relative; width: 100%; aspect-ratio: 3/4; background: #000; }
     .card .image-wrapper .spinner { position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; z-index: 1; }
     .card .image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
-    .card .card-title { background: linear-gradient(to bottom, #000, #333); font-size: 0.15rem; font-weight: 700; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 0.50rem; height: 3rem; overflow: hidden; white-space: normal; word-break: break-word; }
+    .card .card-title { background: linear-gradient(to bottom, #000, #333); font-size: 5px; font-weight: 700; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 8px; height: 48px; overflow: hidden; white-space: normal; word-break: break-word; }
 
     .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; border-top:2px solid #555; display:flex; justify-content:space-around; align-items:center; height:60px; z-index:10; }
     .bottom-bar .item { display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none; }
-    .bottom-bar .item i { font-size:1.10rem; margin-bottom:4px; color: #aaa; }
-    .bottom-bar .item span.label { font-size:.65rem; color: #aaa; display:none; }
+    .bottom-bar .item i { font-size: 18px; margin-bottom:4px; color: #aaa; }
+    .bottom-bar .item span.label { font-size: 10px; color: #aaa; display:none; }
     .bottom-bar .item.active i, .bottom-bar .item.active span.label { color: #fff; }
     .bottom-bar .item.active span.label { display:block; }
 
     .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); display:none; flex-direction:column; z-index:20; }
-    .modal-header { display:flex; align-items:center; justify-content:space-between; background:#000; padding:.75rem 1rem; border-bottom:2px solid #555; }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; background:#000; padding: 12px 16px; border-bottom:2px solid #555; }
     .modal-header .modal-title { flex:1; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #fff; font-size: inherit; text-align: left; line-height: normal; }
     .modal-header .circle { width:32px; height:32px; border-radius:50%; background: linear-gradient(to bottom, #000, #333); display:flex; align-items:center; justify-content:center; cursor:pointer; }
-    .modal-header .circle i { font-size:0.9rem; color:#fff; }
+    .modal-header .circle i { font-size:14px; color:#fff; }
 
     .modal-gallery { flex:1; overflow-y:auto; display:grid; grid-template-columns:1fr; gap:0; padding:0; background:#111; }
     .modal-gallery img { width:100%; height:auto; object-fit:cover; }
 
-    #download-btn { position: absolute; bottom: 1rem; right: 1rem; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 22; }
-    #download-btn i { font-size: 1.25rem; color: #fff; }
+    #download-btn { position: absolute; bottom: 16px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(to bottom, #000, #333); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 22; }
+    #download-btn i { font-size: 20px; color: #fff; }
   </style>
 </head>
 <body>
@@ -125,7 +125,6 @@
     const images = [
 
 
-     
 {
         src: 'https://fullcomics18.org/img16/bonyuu-dashi-shi-no-oshigoto-1.jpg',
         text: 'BONYUU DASHI SHI NO OSHIGOTO',
